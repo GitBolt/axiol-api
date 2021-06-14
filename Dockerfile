@@ -6,4 +6,4 @@ WORKDIR /main
 
 RUN pip install fastapi uvicorn uvloop requests cloudinary pymongo matplotlib
 
-CMD uvicorn root:app --host 0.0.0.0 --port ${PORT}
+CMD uvicorn main:app --host 0.0.0.0 --port ${PORT}
