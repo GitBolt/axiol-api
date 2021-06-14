@@ -61,9 +61,9 @@ def RankBar(serverid, limit):
 
     bars = plt.bar(Username, Experience, width=.8, color="#0075FF", align="center")
     bars[0].set_color("#00D1FF")
-    plt.savefig(os.getcwd()+f"/{serverid}.svg", facecolor="#1C1B37", transparent=True)
+    plt.savefig(os.getcwd()+f"/{serverid}.png", facecolor="#1C1B37", transparent=True)
 
-    savedimage = os.getcwd()+f"/{serverid}.svg"
+    savedimage = os.getcwd()+f"/{serverid}.png"
     hostedimage = cloudinary.uploader.upload(savedimage, folder="Axiol/")
 
     return hostedimage["url"]
