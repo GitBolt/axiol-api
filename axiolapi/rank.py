@@ -70,7 +70,7 @@ def RankBar(serverid, limit):
     plt.savefig(os.getcwd()+f"/{serverid}.png", facecolor="#1C1B37", transparent=True)
 
     savedimage = os.getcwd()+f"/{serverid}.png"
-    hostedimage = cloudinary.uploader.upload(savedimage, folder="Axiol/")
+    hostedimage = cloudinary.uploader.upload(savedimage, folder="RankGraphs/")
     os.remove(savedimage)
     return hostedimage["url"]
 
