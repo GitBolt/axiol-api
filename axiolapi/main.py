@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from visuals.bargraph import RankBar
+from visuals.bargraph import BarGraph
 from visuals.piechart import PieChart
 
 app = FastAPI()
@@ -19,7 +19,7 @@ def index(serverid: int, limit:int=10):
     if limit > 30:
         return {"message": "You cannot get a bar graph of more than 30 users"}
     else:
-        Data = RankBar(serverid, limit)
+        Data = BarGraph(serverid, limit)
         
         return {"message": Data}
 

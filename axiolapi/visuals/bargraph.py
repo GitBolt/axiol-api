@@ -8,7 +8,7 @@ from variables import TOKEN
 from database import LEVELDATABASE
 
 
-def RankBar(serverid, limit):
+def BarGraph(serverid, limit):
 
     if not str(serverid) in LEVELDATABASE.list_collection_names():
         return "This server does not have any rankings"
@@ -24,8 +24,8 @@ def RankBar(serverid, limit):
         try:
             Username.append(user["username"])
             Experience.append(i.get("xp"))
-        except:
-            print(f"\nError: {i}")
+        except Exception as e:
+            print(f"{e}: {i}")
 
     TEXTCOLOUR = '#CBCBCB'
     plt.rcParams['text.color'] = TEXTCOLOUR
@@ -34,33 +34,36 @@ def RankBar(serverid, limit):
     plt.rcParams['ytick.color'] = TEXTCOLOUR
 
     if limit <= 10:
-        fig_width=  15
-        frequency = round(Experience[0], -1) / 20
+        bottom_gap = 0.21
+        fig_width=  16
+        fig_height = 9
 
     elif limit <= 20:
-        fig_width = 25
-        frequency = round(Experience[0], -1) / 20
+        bottom_gap = 0.25
+        fig_width=  18
+        fig_height = 9
 
     else:
-        fig_width = 30
-        frequency = round(Experience[0], -1) / 20
+        bottom_gap = 0.25
+        fig_width = 18
+        fig_height = 9
 
-    fig, ax = plt.subplots(figsize=(fig_width, 20))
-    plt.xticks(rotation=90, size=16)
-    plt.yticks(size=15)
+    fig, ax = plt.subplots(figsize=(fig_width, fig_height))
+    plt.xticks(rotation=90, size=15)
+
+    plt.yticks(size=10)
     plt.ylabel("XP", size=25, color="white")
-    ax.yaxis.set_major_locator(ticker.MultipleLocator(frequency))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(round(Experience[0], -1) / 15))
     ax.set_title(f"Top {limit} users", size=20, color="white")
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.spines['bottom'].set_color("white")
     ax.spines['left'].set_color("white")
 
-    bars = plt.bar(Username, Experience, width=.5, color="#0075FF", align="center")
+    plt.gcf().subplots_adjust(bottom=bottom_gap)
+
+    bars = plt.bar(Username, Experience, width=0.8, color="#0075FF", align="center")
     bars[0].set_color("#00D1FF")
-
-
-
 
     plt.savefig(os.getcwd()+f"/{serverid}.png", facecolor="#1C1B37", transparent=True)
 
