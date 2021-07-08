@@ -35,22 +35,19 @@ def RankBar(serverid, limit):
 
     if limit <= 10:
         fig_width=  15
-        xfont_size = 14
         frequency = round(Experience[0], -1) / 20
 
     elif limit <= 20:
         fig_width = 25
-        xfont_size = 12
         frequency = round(Experience[0], -1) / 20
 
     else:
         fig_width = 30
-        xfont_size = 10
         frequency = round(Experience[0], -1) / 20
 
     fig, ax = plt.subplots(figsize=(fig_width, 20))
-    plt.xticks(rotation=25, size=xfont_size)
-    plt.yticks(size=10)
+    plt.xticks(rotation=90, size=16)
+    plt.yticks(size=15)
     plt.ylabel("XP", size=25, color="white")
     ax.yaxis.set_major_locator(ticker.MultipleLocator(frequency))
     ax.set_title(f"Top {limit} users", size=20, color="white")
@@ -59,7 +56,7 @@ def RankBar(serverid, limit):
     ax.spines['bottom'].set_color("white")
     ax.spines['left'].set_color("white")
 
-    bars = plt.bar(Username, Experience, width=.9, color="#0075FF", align="center")
+    bars = plt.bar(Username, Experience, width=.5, color="#0075FF", align="center")
     bars[0].set_color("#00D1FF")
 
 
