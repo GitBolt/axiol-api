@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from rank import RankBar, PieChart
+from visuals.bargraph import RankBar
+from visuals.piechart import PieChart
 
 app = FastAPI()
 
@@ -7,14 +8,13 @@ app = FastAPI()
 @app.get('/')
 def index():
     return {
-        "Welcome": "👋",
-        "Rank BarGraph": "/bargraph/rank/{serverid}",
-        "Rank PieChart": "/piechart/rank/{serverid}"
+        "Rank BarGraph": "/bargraph/{serverid}",
+        "Rank PieChart": "/piechart/{serverid}"
         }
 
     
 #Returns top 10 users by default, using limit more users can be fetched
-@app.get('/bargraph/rank/{serverid}')
+@app.get('/bargraph/{serverid}')
 def index(serverid: int, limit:int=10):
     if limit > 30:
         return {"message": "You cannot get a bar graph of more than 30 users"}
@@ -24,11 +24,8 @@ def index(serverid: int, limit:int=10):
         return {"message": Data}
 
 
-@app.get('/piechart/rank/{serverid}')
-def index(serverid: int, limit:int=10):
-    if limit > 30:
-        return {"message": "You cannot get a bar graph of more than 30 users"}
-    else:
-        Data = PieChart(serverid, limit)
+@app.get('/piechart/{serverid}')
+def index(serverid: int):
+    Data = PieChart(serverid)
         
-        return {"message": Data}
+    return {"message": Data}
