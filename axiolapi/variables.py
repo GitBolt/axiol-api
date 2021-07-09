@@ -10,4 +10,3 @@ CDNCONFIG = cloudinary.config(
 
 TOKEN = os.environ.get("TOKEN")
 
-
