@@ -12,7 +12,7 @@ pillow = "*"
 matplotlib = "*"
 requests = "*"
 cloudinary = "*"
-transformers = "*"
+nltk = "*"
 
 [dev-packages]
 

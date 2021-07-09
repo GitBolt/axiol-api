@@ -1,25 +1,27 @@
-import nltk
-import numpy
-from nltk.stem.porter import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+from nltk import word_tokenize
+import numpy as np
 
-nltk.download('punkt')
+lemmatizer = WordNetLemmatizer()
 
-stemmer = PorterStemmer()
+def tokenize_and_lemmatize(sentence):
+    result = [lemmatizer.lemmatize(x.lower()) for x in word_tokenize(sentence)]
+    return result
 
-def tokenize(sentence):
-    return nltk.word_tokenize(sentence)
-
-
-def stem(word):
-    return stemmer.stem(word.lower())
-
-
-def bag_of_words(tokenized_sentence, words):
-    sentence_words = [stem(word) for word in tokenized_sentence]
-    bag = numpy.zeros(len(words), dtype=numpy.float32)
-
+def bag_of_words(sentence, words):
+    bag = np.zeros(len(words), dtype=np.float32)
     for index, w in enumerate(words):
-        if w in sentence_words: 
+        if w in sentence: 
             bag[index] = 1
-
     return bag
+
+def solve(sentence):
+    q = ""
+    for i in sentence:
+        if not i.isalpha() and i not in [".", ",", "?", "!", "'", "}", "{", "|"]:
+            q += i
+    quotes = q.replace('\"', '\\"')
+    try:
+        return eval(quotes)
+    except:
+        return "Sorry but I was not able to understand the question, either I'm too dumb or question was wrong :p can you rephrase?"

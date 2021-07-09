@@ -1,31 +1,35 @@
 import numpy
-import json
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
-
-from utils import bag_of_words, tokenize, stem
 from model import NeuralNet
+from utils import tokenize_and_lemmatize, bag_of_words
+from pymongo import MongoClient
+import os
+
+#Training data
+MONGO_TRAINING_URL = MongoClient(os.environ.get("MONGO_TRAINING_URL")) #Client
+DB1 = MONGO_TRAINING_URL["DB1"] #Main DB
 
 
-with open('intents.json', 'r') as f:
-    intents = json.load(f)
+collection1 = DB1.get_collection("Col1")
+document1 = collection1.find_one({"_id": 1})
+alldata = list(collection1.find())
+
 
 all_words = []
 tags = []
 xy = []
 
-for intent in intents['intents']:
-    tag = intent['tag']
+for data in alldata:
+    tag = data['tag']
     tags.append(tag)
-    for pattern in intent['patterns']:
-        w = tokenize(pattern)
+    for pattern in data['patterns']:
+        w = tokenize_and_lemmatize(pattern)
         all_words.extend(w)
         xy.append((w, tag))
 
-#Stem and lower each word
-ignored_chars = ['?','!', '.', ',']
-all_words = [stem(w) for w in all_words if w not in ignored_chars]
+
 #Remove duplicates and sort
 all_words = sorted(set(all_words)) 
 tags = sorted(set(tags))
