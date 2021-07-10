@@ -22,13 +22,30 @@ def bag_of_words(sentence, words):
 def solve(sentence):
     q = ""
     for i in sentence:
-        if not i.isalpha() and i not in [".", ",", "?", "!", "'", "}", "{", "|"]:
+        if not i.isalpha() and i not in [".", ",", "?", "!", "'", "}", "{", "|",":", ";", "_", "="]:
             if "^" in list(i):
                 q += i.replace("^", "**")
             else:
                 q+= i
+
     quotes = q.replace('\"', '\\"')
-    try:
-        return eval(quotes)
-    except:
-        return "Sorry but I was not able to understand the question, either I'm too dumb or question was wrong :p can you rephrase?"
+    print("Quotes", quotes)
+    if "**" in quotes:  
+        print("** Found", quotes)
+        for i in quotes.split("**"):
+            if len([x for x in list(i) if x.isnumeric()]) > 4:
+                return "The answer very large and I might break if I execute it, so sorry I can't answer it :p"
+                break
+            elif len(quotes.split("**")) > 4:
+                return "The answer very large and I might break if I execute it, so sorry I can't answer it ;-;"
+                break
+            else:
+                try:
+                    return eval(quotes)
+                except:
+                    return "Sorry but I was not able to understand the question, either I'm too dumb or question was wrong :p can you rephrase?"
+    else:
+        try:
+            return eval(quotes)
+        except:
+            return "Sorry but I was not able to understand the question, either I'm too dumb or question was wrong :p can you rephrase?"
