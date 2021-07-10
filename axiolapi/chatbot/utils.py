@@ -22,7 +22,10 @@ def solve(sentence):
     q = ""
     for i in sentence:
         if not i.isalpha() and i not in [".", ",", "?", "!", "'", "}", "{", "|"]:
-            q += i
+            if "^" in list(i):
+                q += i.replace("^", "**")
+            else:
+                q+= i
     quotes = q.replace('\"', '\\"')
     try:
         return eval(quotes)

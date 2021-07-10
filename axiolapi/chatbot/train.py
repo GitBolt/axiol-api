@@ -1,17 +1,16 @@
+import os
 import numpy
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
+from pymongo import MongoClient
+
 from model import NeuralNet
 from utils import tokenize_and_lemmatize, bag_of_words
-from pymongo import MongoClient
-import os
+from database import DB1
 
-#Training data
-MONGO_TRAINING_URL = MongoClient(os.environ.get("MONGO_TRAINING_URL")) #Client
-DB1 = MONGO_TRAINING_URL["DB1"] #Main DB
-
-
+MONGO_TRAINING_URL = MongoClient(os.environ.get("MONGO_TRAINING_URL"))
+DB1 = MONGO_TRAINING_URL["DB1"] 
 collection1 = DB1.get_collection("Col1")
 document1 = collection1.find_one({"_id": 1})
 alldata = list(collection1.find())
@@ -123,4 +122,4 @@ data = {
 FILE = "data.pth"
 torch.save(data, FILE)
 
-print(f'Training complete. file saved to {FILE}')
+print(f'File saved to {FILE}')

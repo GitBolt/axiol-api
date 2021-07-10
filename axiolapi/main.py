@@ -1,23 +1,25 @@
 import torch
 import random
+from fastapi import FastAPI
+from pydantic import BaseModel
+
 from chatbot.model import NeuralNet
 from chatbot.utils import bag_of_words, tokenize_and_lemmatize, solve
-from fastapi import FastAPI
 from visuals.bargraph import BarGraph
 from visuals.piechart import PieChart
-from pymongo import MongoClient
-import os
+from database import DB1
 
 
 app = FastAPI()
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-MONGO_TRAINING_URL = MongoClient(os.environ.get("MONGO_TRAINING_URL")) #Client
-DB1 = MONGO_TRAINING_URL["DB1"] #Main DB
-
 collection1 = DB1.get_collection("Col1")
 alldata = list(collection1.find())
+
+
+class Content(BaseModel):
+    content: str
 
 @app.get('/')
 def index():
@@ -44,8 +46,9 @@ def index(serverid: int):
         
     return {"message": Data}
 
-@app.post("/ai/chatbot", status_code=200)
-async def chatbot(content:str):
+
+@app.post("/ai/chatbot")
+async def chatbot(content: Content):
     FILE = "chatbot/data.pth"
     data = torch.load(FILE, map_location='cpu')
 
@@ -59,11 +62,8 @@ async def chatbot(content:str):
     model = NeuralNet(input_size, hidden_size, output_size).to(device)
     model.load_state_dict(model_state)
     model.eval()
-    if "<@!843484459113775114>" in content:
-        sentence = content.strip("<@!843484459113775114>") #Removing the bot ping
-    else:
-        sentence = content
-    sentence = tokenize_and_lemmatize(sentence)
+
+    sentence = tokenize_and_lemmatize(content.dict()["content"])
     X = bag_of_words(sentence, all_words)
     X = X.reshape(1, X.shape[0])
     X = torch.from_numpy(X).to(device)
