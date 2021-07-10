@@ -4,6 +4,7 @@ from nltk import word_tokenize
 import numpy as np
 
 nltk.download("punkt")
+nltk.download("wordnet")
 
 lemmatizer = WordNetLemmatizer()
 
