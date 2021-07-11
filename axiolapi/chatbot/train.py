@@ -26,7 +26,10 @@ for data in alldata:
         w = tokenize_and_lemmatize(pattern)
         all_words.extend(w)
         xy.append((w, tag))
-
+        
+# create training data
+ignored_chars = ['?','!', '.', ',', ';', ':']
+all_words = [all_words.remove(x) for x in all_words if x in ignored_chars]
 
 #Remove duplicates and sort
 all_words = sorted(set(all_words)) 
@@ -34,7 +37,6 @@ tags = sorted(set(tags))
 
 print(f"{len(xy)} Patterns\n\n{len(tags)} Tags: {tags}")
 
-# create training data
 X_train = []
 y_train = []
 for (pattern_sentence, tag) in xy:
