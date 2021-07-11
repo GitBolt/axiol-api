@@ -7,7 +7,6 @@ from pymongo import MongoClient
 
 from model import NeuralNet
 from utils import tokenize_and_lemmatize, bag_of_words
-from database import DB1
 
 MONGO_TRAINING_URL = MongoClient(os.environ.get("MONGO_TRAINING_URL"))
 DB1 = MONGO_TRAINING_URL["DB1"] 
