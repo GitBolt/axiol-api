@@ -70,7 +70,7 @@ async def chatbot(content: Content):
 
     output = model(X)
     _, predicted = torch.max(output, dim=1)
-    print(sentence)
+    print(all_words)
     tag = tags[predicted.item()]
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]

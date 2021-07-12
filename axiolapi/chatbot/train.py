@@ -14,7 +14,6 @@ collection1 = DB1.get_collection("Col1")
 document1 = collection1.find_one({"_id": 1})
 alldata = list(collection1.find())
 
-
 all_words = []
 tags = []
 xy = []
@@ -29,10 +28,10 @@ for data in alldata:
         
 # create training data
 ignored_chars = ['?','!', '.', ',', ';', ':']
-all_words = [all_words.remove(x) for x in all_words if x in ignored_chars]
-
+all_words = [x for x in all_words if not x in ignored_chars]
 #Remove duplicates and sort
 all_words = sorted(set(all_words)) 
+print(all_words)
 tags = sorted(set(tags))
 
 print(f"{len(xy)} Patterns\n\n{len(tags)} Tags: {tags}")
