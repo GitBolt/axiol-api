@@ -2,7 +2,7 @@ import os
 from pymongo import MongoClient
 
 
-MONGOCLIENT = MongoClient(os.environ.get("MONGO_URL")) #Client
+MONGOCLIENT = MongoClient(os.environ.get("AXIOL_MONGO_URL")) #Client
 
 #Databases
 DATABASE = MONGOCLIENT["Axiol"] #Main DB
