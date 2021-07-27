@@ -27,7 +27,7 @@ for data in alldata:
         xy.append((w, tag))
         
 # create training data
-ignored_chars = ['?','!', '.', ',', ';', ':']
+ignored_chars = ['?','!', ',', ';', ':']
 all_words = [x for x in all_words if not x in ignored_chars]
 #Remove duplicates and sort
 all_words = sorted(set(all_words)) 

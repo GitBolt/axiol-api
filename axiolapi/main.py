@@ -73,8 +73,7 @@ async def chatbot(content: Content):
     tag = tags[predicted.item()]
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
-    print(tag, sentence)
-    if prob.item() > 0.85:
+    if prob.item() > 0.90:
         for data in alldata:
             if tag == data["tag"]:
                 if tag == "maths":
